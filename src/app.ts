@@ -3,7 +3,7 @@ const express = require('express');
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({ signatureVersion: 'v4' });
 const cron = require("node-cron");
-
+var SNSClient = require('aws-snsclient');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -22,12 +22,15 @@ http.listen(8081, function(){
  
 const imageConverter = new ImageConverter(s3, 'image-realtime', 'converted/');
 
-app.get('/uploadCallback', function(req, res) {
-   imageConverter.convertFile('flutter-2.jpg')
-      .then(result => {
-         res.send("Convert completed");
-      })
-})
+var client = SNSClient(function(err, message) {
+   console.log(message);
+
+   imageConverter.convertFile('flutter-2.jpg');
+});
+
+app.post('/uploadCallback', function(req, resp){
+   return client(req, resp);   
+});
 
 io.on('connection', function(socket){
   console.log('a user connected');
@@ -41,4 +44,5 @@ cron.schedule("*/10 * * * * *", function() {
    console.log("running a task every minute");
    io.emit('update', { for: 'everyone' });
  });
+
 

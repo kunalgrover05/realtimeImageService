@@ -6,6 +6,7 @@
   "dependencies": {
     "@types/node": "^10.12.18",
     "aws-sdk": "^2.390.0",
+    "aws-snsclient": "^0.2.0",
     "express": "^4.16.4",
     "http": "0.0.0",
     "node-cron": "^2.0.3",
