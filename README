@@ -1,0 +1,3 @@
+Assumptions:
+- Maximum number of users are limited 100 or so.
+- Users will wait till data processing is done. Expected max delay: 1 min
