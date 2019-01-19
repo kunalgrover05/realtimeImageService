@@ -13,6 +13,16 @@ import { ImageConverter } from "./convert";
 import { request } from "http";
 const fileManager = new FileManager(s3, 'image-realtime', 'converted/');
 var bodyParser     =        require("body-parser");
+
+const overrideContentType = function(){
+   return function(req, res, next) {
+     if (req.headers['x-amz-sns-message-type']) {
+         req.headers['content-type'] = 'application/json;charset=UTF-8';
+     }
+     next();
+   };
+ }
+app.use(overrideContentType());
 app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
@@ -48,7 +58,6 @@ app.post('/uploadCallback', function (req, resp) {
    console.log(req.body);
    if (messagetype === "Notification") {
    } else if (messagetype === "SubscriptionConfirmation") {
-      console.log(req.body);
    }
 });
 
