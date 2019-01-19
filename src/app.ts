@@ -43,7 +43,7 @@ const upload = multer({
      bucket: 'image-realtime',
      key: function (request, file, cb) {
        console.log(file);
-       cb(null, 'images/' + file.originalname);
+       cb(null, 'images/' + file.originalname.replace(/ /g, '_'));
      }
    })
  });
