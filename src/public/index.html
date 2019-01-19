@@ -8,7 +8,12 @@
 <body>
     <div id="app">
     </div>
-    <script  src='/render.js'></script>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data" >
+        <input type="file" name="upload" />
+        <button type="submit">Upload</button>
+    </form>
+    <script src='/render.js'></script>
 </body>
 
 </html>

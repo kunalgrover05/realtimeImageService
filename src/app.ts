@@ -3,14 +3,12 @@ const express = require('express');
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({ signatureVersion: 'v4' });
 const cron = require("node-cron");
-var SNSClient = require('aws-snsclient');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 import { FileManager } from "./files";
 
 import { ImageConverter } from "./convert";
-import { request } from "http";
 const fileManager = new FileManager(s3, 'image-realtime', 'converted/images/');
 var bodyParser     =        require("body-parser");
 
@@ -36,15 +34,25 @@ http.listen(8081, function () {
 
 const imageConverter = new ImageConverter(s3, 'image-realtime', 'converted/');
 
-var auth = {
-   verify: false
-};
-var client = SNSClient(auth, function (err, message) {
-   console.log(message);
-   // console.log(message);
-   console.log("Converting");
-});
+ 
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const upload = multer({
+   storage: multerS3({
+     s3: s3,
+     bucket: 'image-realtime',
+     key: function (request, file, cb) {
+       console.log(file);
+       cb(null, 'images/' + file.originalname);
+     }
+   })
+ });
 
+ app.post('/upload', upload.single('upload'), function (req, res, next) {
+    filesUpdateCheck();
+   res.send('Successfully uploaded ' );
+ });
+ 
 app.post('/uploadCallback', function (req, resp) {
    //Get the message type header.
    const messagetype = req.get("x-amz-sns-message-type");
@@ -83,6 +91,6 @@ const filesUpdateCheck = function () {
          }
       })
 }
-cron.schedule("*/100 * * * * *", filesUpdateCheck);
+cron.schedule("*/300 * * * * *", filesUpdateCheck);
 
 

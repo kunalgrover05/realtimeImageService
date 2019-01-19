@@ -6,10 +6,11 @@
   "dependencies": {
     "@types/node": "^10.12.18",
     "aws-sdk": "^2.390.0",
-    "aws-snsclient": "^0.2.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "http": "0.0.0",
+    "multer": "^1.4.1",
+    "multer-s3": "^2.9.0",
     "node-cron": "^2.0.3",
     "sharp": "^0.21.2",
     "socket.io": "^2.2.0",
