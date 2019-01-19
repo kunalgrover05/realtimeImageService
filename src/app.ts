@@ -42,12 +42,6 @@ var client = SNSClient(auth, function (err, message) {
    console.log(message);
    // console.log(message);
    console.log("Converting");
-   imageConverter.convertFile('flutter-2.jpg').then(data => {
-      console.log("Conversion completed");
-   }).catch(err => {
-      console.log("ERROR");
-      console.log(err);
-   });
 });
 
 app.post('/uploadCallback', function (req, resp) {
@@ -55,9 +49,21 @@ app.post('/uploadCallback', function (req, resp) {
    const messagetype = req.get("x-amz-sns-message-type");
    console.log(messagetype);
    console.log("Upload callback");
-   console.log(req.body);
+   const body = req.body;
+   console.log("Body", body);
+
+   console.log(JSON.parse(body.Message).Records[0].s3.object.key);
    if (messagetype === "Notification") {
+      imageConverter.convertFile(JSON.parse(body.Message).Records[0].s3.object.key).then(data => {
+         console.log("Conversion completed");
+      }).catch(err => {
+         console.log("ERROR");
+         console.log(err);
+      });
+      
    } else if (messagetype === "SubscriptionConfirmation") {
+
+      // Open the URL for Subscription confirmation
    }
 });
 
