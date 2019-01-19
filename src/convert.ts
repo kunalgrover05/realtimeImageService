@@ -23,6 +23,7 @@ export class ImageConverter {
             }).toBuffer();
     
         const uploadedData = await this.s3.putObject({
+            ACL: 'public-read',
             Body: convertedFile,
             Bucket: this.bucket,
             Key: this.convertFolder +  fileName

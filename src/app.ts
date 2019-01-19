@@ -24,9 +24,10 @@ const overrideContentType = function(){
  }
 app.use(overrideContentType());
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
-   res.sendFile(__dirname + '/index.html');
+   res.sendFile(__dirname + '/public/index.html');
 });
 
 http.listen(8081, function () {
@@ -56,7 +57,7 @@ app.post('/uploadCallback', function (req, resp) {
    if (messagetype === "Notification") {
       imageConverter.convertFile(JSON.parse(body.Message).Records[0].s3.object.key).then(data => {
          console.log("Conversion completed");
-         this.fileManager
+         filesUpdateCheck();
       }).catch(err => {
          console.log("ERROR");
          console.log(err);
@@ -70,9 +71,11 @@ app.post('/uploadCallback', function (req, resp) {
 
 io.on('connection', function (socket) {
    console.log('a user connected');
+   socket.emit('update', fileManager.files);
 });
 
-const filesUpdateCheck = () => {
+const filesUpdateCheck = function () {
+   console.log("Checking for changes");
    fileManager.haveFilesChanged()
       .then(haveChanged => {
          if (haveChanged) {

@@ -4,13 +4,9 @@ class S3File {
     Url: string;
 }
 export class FileManager {
-    files: Array<S3File> = new Array();
+    public files: Array<S3File> = new Array();
     constructor(private s3, private bucket: string, private prefix: string) {
-
-    }
-
-    fetchFileUrls() {
-
+        this.haveFilesChanged();
     }
 
     private fetchFiles(): Promise<Array<S3File>> {
@@ -19,7 +15,8 @@ export class FileManager {
                 const newFiles: Array<S3File> = data.Contents.map(file => {
                     return <S3File>{
                         Key: file.Key,
-                        ETag: file.ETag
+                        ETag: file.ETag,
+                        Url: 'https://s3.amazonaws.com/' + this.bucket + '/' + file.Key
                     }
                 });
                 return newFiles;
@@ -46,7 +43,7 @@ export class FileManager {
                 if (FileManager.areEqual(newFiles, this.files)) {
                     return false;
                 }
-
+                
                 this.files = newFiles;
                 return true;
             });
