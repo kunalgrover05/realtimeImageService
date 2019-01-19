@@ -7,7 +7,6 @@ var app = new Vue({
     data: {
         files: []
     },
-    template: '<div  style="flex-flow: wrap; flex-direction: row; align-items: center; display: flex"><img v-for="file in files" :src="file.Url" style="max-width: 250px" /></div>'
 })
 
 

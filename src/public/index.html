@@ -5,14 +5,17 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
-<body>
-    <div id="app">
-    </div>
-
-    <form action="/upload" method="POST" enctype="multipart/form-data" >
+<body style="background: rgba(100, 80, 10, 0.1)">
+    <form action="/upload" method="POST" enctype="multipart/form-data">
         <input type="file" name="upload" />
         <button type="submit">Upload</button>
     </form>
+
+    <div id="app">
+            <div style="flex-flow: wrap; flex-direction: row; align-items: center; display: flex">
+                    <img v-for="file in files" :src="file.Url" style="max-width: 250px; margin: 30px" />
+                </div>
+    </div>
     <script src='/render.js'></script>
 </body>
 
