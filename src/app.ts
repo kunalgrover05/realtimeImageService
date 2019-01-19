@@ -50,7 +50,7 @@ const upload = multer({
 
  app.post('/upload', upload.single('upload'), function (req, res, next) {
     filesUpdateCheck();
-   res.send('Successfully uploaded ' );
+    res.redirect('/');
  });
  
 app.post('/uploadCallback', function (req, resp) {
