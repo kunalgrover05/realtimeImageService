@@ -12,6 +12,8 @@ import { FileManager } from "./files";
 import { ImageConverter } from "./convert";
 import { request } from "http";
 const fileManager = new FileManager(s3, 'image-realtime', 'converted/');
+var bodyParser     =        require("body-parser");
+app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
    res.sendFile(__dirname + '/index.html');
