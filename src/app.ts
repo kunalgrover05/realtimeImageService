@@ -11,7 +11,7 @@ import { FileManager } from "./files";
 
 import { ImageConverter } from "./convert";
 import { request } from "http";
-const fileManager = new FileManager(s3, 'image-realtime', 'converted/');
+const fileManager = new FileManager(s3, 'image-realtime', 'converted/images/');
 var bodyParser     =        require("body-parser");
 
 const overrideContentType = function(){
@@ -56,6 +56,7 @@ app.post('/uploadCallback', function (req, resp) {
    if (messagetype === "Notification") {
       imageConverter.convertFile(JSON.parse(body.Message).Records[0].s3.object.key).then(data => {
          console.log("Conversion completed");
+         this.fileManager
       }).catch(err => {
          console.log("ERROR");
          console.log(err);
@@ -71,11 +72,14 @@ io.on('connection', function (socket) {
    console.log('a user connected');
 });
 
-cron.schedule("*/100 * * * * *", function () {
+const filesUpdateCheck = () => {
    fileManager.haveFilesChanged()
       .then(haveChanged => {
+         if (haveChanged) {
+            io.emit('update', fileManager.files);
+         }
       })
-   io.emit('update', { for: 'everyone' });
-});
+}
+cron.schedule("*/100 * * * * *", filesUpdateCheck);
 
 
