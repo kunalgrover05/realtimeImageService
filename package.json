@@ -17,7 +17,11 @@
     "typescript": "^3.2.4"
   },
   "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
+    "sinon": "^7.2.3",
     "ts-node": "^7.0.1"
   },
   "scripts": {
