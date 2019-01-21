@@ -1,6 +1,7 @@
-Capabilities => Realtime Image sharing service with single node.
+#### Capabilities
+Realtime Image sharing service with single server.
 
-How does it work?
+#### How does it work?
 - Client uploads an image to S3
 - S3 sends a notification to SNS
 - Node subscribes to SNS to view updates from S3 and triggers file conversion
