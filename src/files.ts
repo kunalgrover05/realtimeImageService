@@ -24,6 +24,9 @@ export class FileManager {
     }
 
     private static areEqual(array1: Array<S3File>, array2: Array<S3File>) {
+        if (array1 == null || array2 == null) {
+            return true;
+        }
         if (array1.length !== array2.length) {
             return false;
         }

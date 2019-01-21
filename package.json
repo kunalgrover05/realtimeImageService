@@ -19,17 +19,17 @@
   "devDependencies": {
     "@types/mocha": "^5.2.5",
     "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
-    "sinon": "^7.2.3",
     "ts-node": "^7.0.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tsc  --lib es2015,dom test/*.ts && mocha -- test/*.js",
     "start": "npm run build:prod",
     "build": "tsc -p .",
-    "build:prod": "tsc src/app.ts && node src/app.js",
-    "build:live": "nodemon --watch 'src/*.ts' --exec 'ts-node' src/app.ts"
+    "build:prod": "tsc src/*.ts && node src/main.js",
+    "build:live": "nodemon --watch 'src/*.ts' --exec 'ts-node' src/main.ts"
   },
   "author": "",
   "license": "ISC"
