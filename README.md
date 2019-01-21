@@ -15,4 +15,4 @@ Try out here: http://imageviewerrealtime-dev.us-east-1.elasticbeanstalk.com/
 
 #### Frontend
 - Frontend is a simple Vue.js application which is connected to the server using SocketIO.
-- Whenever SocketIO publishes an update in the image URLs, Vue smartly renders only as many images as required instead of rendering all, making it easily workable on the client side.
+- Whenever SocketIO publishes an update in the image URLs, Vue smartly renders only as many images as required instead of rendering all, making it optimized on the client side.
